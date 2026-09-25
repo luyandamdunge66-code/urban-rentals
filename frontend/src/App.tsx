@@ -61,7 +61,7 @@ export default function App() {
   const [renterNavTab, setRenterNavTab] = useState<'MARKETPLACE' | 'FAVORITES' | 'VIEWINGS' | 'APPLICATIONS' | 'MESSAGES'>('MARKETPLACE');
   const [ownerNavTab, setOwnerNavTab] = useState<'PROPERTIES' | 'VIEWINGS' | 'APPLICATIONS' | 'MESSAGES'>('PROPERTIES');
 
-  // 💾 PERSISTENT VIEWED NOTIFICATION TABS
+  // 💾 Persistent Notification State
   const [viewedTabs, setViewedTabs] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
@@ -118,7 +118,7 @@ export default function App() {
   const [myProperties, setMyProperties] = useState<any[]>([]);
   const [showAddPropertyModal, setShowAddPropertyModal] = useState(false);
 
-  // Property Creation States (Native Upload, Max 10 Photos)
+  // Property Creation States (Native Device Upload, Max 10 Photos)
   const [propTitle, setPropTitle] = useState('');
   const [propDescription, setPropDescription] = useState('');
   const [propType, setPropType] = useState('APARTMENT');
@@ -183,7 +183,7 @@ export default function App() {
       const res = await fetch(url);
       const data = await res.json();
       if (res.ok) setPublicProperties(data.properties || []);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
     }
   };
@@ -253,7 +253,7 @@ export default function App() {
     refreshUserData();
   }, [currentUser]);
 
-  // LOGIN HANDLER (Properly Defined!)
+  // LOGIN HANDLER
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg('');
@@ -273,13 +273,13 @@ export default function App() {
       setAuthModal(null);
       refreshUserData(data.token);
     } catch (err: any) {
-      setErrorMsg(err.message);
+      setErrorMsg(err.message || 'Login failed');
     } finally {
       setLoading(false);
     }
   };
 
-  // REGISTER HANDLER (Properly Defined!)
+  // REGISTER HANDLER
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg('');
@@ -315,7 +315,7 @@ export default function App() {
       setAuthModal(null);
       refreshUserData(data.token);
     } catch (err: any) {
-      setErrorMsg(err.message);
+      setErrorMsg(err.message || 'Registration failed');
     } finally {
       setLoading(false);
     }
@@ -332,7 +332,7 @@ export default function App() {
     localStorage.removeItem('urban_user');
   };
 
-  // Toggle Favourite
+  // Favourites Toggle
   const handleToggleFavorite = async (propertyId: string, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     if (!currentUser) {
@@ -352,7 +352,7 @@ export default function App() {
         refreshUserData(activeToken || undefined);
         alert(data.message);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
     }
   };
@@ -403,7 +403,7 @@ export default function App() {
         alert(`Viewing request marked as ${status}!`);
         refreshUserData(activeToken || undefined);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
     }
   };
@@ -455,7 +455,7 @@ export default function App() {
         alert(`Application status updated to ${status}!`);
         refreshUserData(activeToken || undefined);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
     }
   };
@@ -478,7 +478,7 @@ export default function App() {
       if (res.ok && data.conversationId) {
         openChatWindow(data.conversationId, recipientName, propertyTitle);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
     }
   };
@@ -494,7 +494,7 @@ export default function App() {
         setChatMessages(data.messages || []);
         setActiveChat({ conversationId, recipientName, propertyTitle });
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
     }
   };
@@ -513,12 +513,12 @@ export default function App() {
         setMessageInput('');
         openChatWindow(activeChat.conversationId, activeChat.recipientName, activeChat.propertyTitle);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
     }
   };
 
-  // Native File Upload (Max 10)
+  // Native Device Image Upload (Max 10)
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
@@ -610,7 +610,7 @@ export default function App() {
       alert(`Owner marked as ${status}!`);
       setSelectedOwnerDossier(null);
       refreshUserData(activeToken || undefined);
-    } catch (err) {
+    } catch (err: any) {
       alert(err.message);
     }
   };
@@ -1126,7 +1126,7 @@ export default function App() {
         </main>
       )}
 
-      {/* ─── 👥 ADMIN: ALL USERS LIST MODAL (SECTION 23) ─── */}
+      {/* ─── 👥 ADMIN: ALL USERS MODAL (SECTION 23) ─── */}
       {showAllUsersModal && (
         <div onClick={() => setShowAllUsersModal(false)} className="fixed inset-0 bg-slate-900/70 z-50 flex items-center justify-center p-4 overflow-y-auto">
           <div onClick={(e) => e.stopPropagation()} className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full my-8 max-h-[90vh] flex flex-col">
@@ -1231,7 +1231,7 @@ export default function App() {
             <h3 className="text-xl font-bold mb-1">Request a Viewing</h3>
             <form onSubmit={handleSendViewingRequest} className="space-y-3 mt-4">
               <div>
-                <label className="block text-xs font-bold text-slate-600 mb-1">Preferred Date (Today or Future) *</label>
+                <label className="block text-xs font-bold text-slate-600 mb-1">Preferred Date *</label>
                 <input type="date" required min={todayDateStr} value={viewingDate} onChange={(e) => setViewingDate(e.target.value)} className="w-full p-2.5 bg-slate-50 border rounded-xl text-sm" />
               </div>
               <div>
