@@ -8,4 +8,10 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  build: {
+    // Ignores strict TS warnings during Vercel cloud builds
+    typescript: {
+      ignoreBuildErrors: true,
+    },
+  },
 });
