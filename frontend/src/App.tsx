@@ -32,14 +32,16 @@ import {
   Home,
 } from 'lucide-react';
 
-const API_AUTH = 'http://localhost:5000/api/v1/auth';
-const API_OWNERS = 'http://localhost:5000/api/v1/owners';
-const API_PROPERTIES = 'http://localhost:5000/api/v1/properties';
-const API_FAVORITES = 'http://localhost:5000/api/v1/favorites';
-const API_VIEWINGS = 'http://localhost:5000/api/v1/viewings';
-const API_MESSAGES = 'http://localhost:5000/api/v1/messages';
-const API_APPLICATIONS = 'http://localhost:5000/api/v1/applications';
-const API_ANALYTICS = 'http://localhost:5000/api/v1/analytics';
+const BASE_URL = 'https://urban-rentals-api.onrender.com/api/v1';
+
+const API_AUTH = `${BASE_URL}/auth`;
+const API_OWNERS = `${BASE_URL}/owners`;
+const API_PROPERTIES = `${BASE_URL}/properties`;
+const API_FAVORITES = `${BASE_URL}/favorites`;
+const API_VIEWINGS = `${BASE_URL}/viewings`;
+const API_MESSAGES = `${BASE_URL}/messages`;
+const API_APPLICATIONS = `${BASE_URL}/applications`;
+const API_ANALYTICS = `${BASE_URL}/analytics`;
 
 export default function App() {
   const todayDateStr = new Date().toISOString().split('T')[0];
